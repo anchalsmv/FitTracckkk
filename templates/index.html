@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Exercise Tracker Logo" id="logo">
+            <span id="logo-text">FitTracckkk</span>
+        </div>
+        <div class="heading">
+        <h1>Exercise Tracker</h1>
+    </div>
+    </header>
+<div class="card-container">
+    <div class="exercise-card" onclick="startPushup()">
+        <img src="{{ url_for('static', filename='pushup.png') }}" alt="Start Push-up Tracker">
+        <span class="exercise-label">Push-up Tracker</span>
+    </div>
+    <div class="exercise-card" onclick="startBicepCurl()">
+        <img src="{{ url_for('static', filename='bicep_curl.jpeg') }}" alt="Start Bicep Curl Tracker">
+        <span class="exercise-label">Bicep Curl Tracker</span>
+    </div>
+    <div class="exercise-card" onclick="startSquat()">
+        <img src="{{ url_for('static', filename='squat.png') }}" alt="Start Squat Tracker">
+        <span class="exercise-label">Squat Tracker</span>
+    </div>
+</div>
+    <script>
+        function startPushup() {
+            window.location.href = "/pushup";
+        }
+
+        function startBicepCurl() {
+            window.location.href = "/bicep";
+        }
+
+        function startSquat() {
+            window.location.href = "/squat";
+        }
+    </script>
+</body>
+</html>

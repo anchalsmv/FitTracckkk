@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Exercise Tips</title>
+    <!-- <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+    </style> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Black background for the body */
+            color: #fff; /* White text color for readability */
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #121212; /* Slightly lighter black for the container */
+        }
+        h1 {
+            color: #FFD700; /* Golden color for the header */
+        }
+        a {
+            color: #FFD700; /* Golden color for links for consistency with the header */
+            text-decoration: none; /* No underline */
+        }
+        a:hover {
+            color: #E6B800; /* Slightly darker gold when hovering over links */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Personalized Exercise Tips</h1>
+        <div id="exercise-tips"></div>
+        <p><a href="/">Go back to home</a></p>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve data from session storage
+            var insightsData = sessionStorage.getItem('insightsData');
+            if (insightsData) {
+                try {
+                    // Parse the JSON response
+                    var insights = JSON.parse(insightsData);
+                    
+                    // Display the exercise tips
+                    var exerciseTipsDiv = document.getElementById('exercise-tips');
+                    var exerciseTipsContent = insights.response;
+                    exerciseTipsDiv.innerHTML = '<p>' + exerciseTipsContent.replace(/\n/g, '</p><p>') + '</p>';
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
+                
+                // Clear data from session storage
+                sessionStorage.removeItem('insightsData');
+            } else {
+                console.error('No insights data found');
+            }
+        });
+    </script>
+</body>
+</html>

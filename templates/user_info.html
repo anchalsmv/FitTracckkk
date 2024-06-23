@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+    <h1>User Information</h1>
+    <form id="user-info-form" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="feet">Height (feet):</label>
+        <input type="number" id="feet" name="feet" required onkeydown="return preventNegative(event);"><br><br>
+        <label for="inches">Height (inches):</label>
+        <input type="number" id="inches" name="inches" required onkeydown="return preventNegative(event);"><br><br>
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" name="weight" required onkeydown="return preventNegative(event);"><br><br>
+        <input type="hidden" id="exercise_name" name="exercise_name" value="{{exercise_name}}">
+        <input type="hidden" id="count" name="count" value="{{ count }}">
+        <input type="hidden" id="errors" name="errors" value="{{ errors }}">
+        <button type="button" onclick="submitForm()">Get Insights</button>
+    </form>
+    <div class="loading-container" id="loading-container">
+        <!-- Loading image -->
+        <img src="{{ url_for('static', filename='loading animation.gif') }}" alt="Loading GIF">
+        <!-- Loading text -->
+        <div class="loading-text">Generating Insights</div>
+    </div>
+
+    <script>
+        function preventNegative(event) {
+        
+            if (event.key === '-' || event.key === '+' || event.key === '.') {
+                event.preventDefault(); // Prevent the minus sign
+            }
+        }
+        function submitForm() {
+            document.getElementById('loading-container').style.display = 'block';
+            // Gather form data
+            const formData = {
+                name: document.getElementById('name').value,
+                feet: parseFloat(document.getElementById('feet').value),
+                inches: parseFloat(document.getElementById('inches').value),
+                weight: parseFloat(document.getElementById('weight').value),
+                exercise_name: document.getElementById('exercise_name').value,
+                count: document.getElementById('count').value,
+                errors: document.getElementById('errors').value,
+               
+            };
+
+            // Send form data to backend
+            fetch('/get_insights', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                // Check if the response contains valid JSON
+                if (data) {
+                    // Redirect to new page with insights
+                    sessionStorage.setItem('insightsData', data);
+                    window.location.href = '/insights';
+                } else {
+                    console.error('Invalid JSON response from server');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                // Hide loading spinner after API call completes
+                document.getElementById('loading-container').style.display = 'none';
+            });
+        }
+    </script>
+</body>
+</html>
